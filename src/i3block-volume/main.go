@@ -113,19 +113,24 @@ func main() {
     }
 
     if args.MouseButton != nil {
-        info := fmt.Sprintf("Master: %d%%", master.Volume)
-        if master.Muted {
-            info += ", muted"
-        }
-        info += "\n"
+        switch *args.MouseButton {
+            case bar.MouseButtonRight:
+                exec.Command("/usr/bin/pavucontrol").Start()
+            default:
+                info := fmt.Sprintf("Master: %d%%", master.Volume)
+                if master.Muted {
+                    info += ", muted"
+                }
+                info += "\n"
 
-        info += fmt.Sprintf("Microphone: %d%%", mic.Volume)
-        if mic.Muted {
-            info += ", muted"
-        }
-        info += "\n"
+                info += fmt.Sprintf("Microphone: %d%%", mic.Volume)
+                if mic.Muted {
+                    info += ", muted"
+                }
+                info += "\n"
 
-        bar.MoreInfo("Volume Info", info)
+                bar.MoreInfo("Volume Info", info)
+        }
     }
 
     out.FullText = fmt.Sprintf(

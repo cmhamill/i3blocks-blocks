@@ -133,7 +133,7 @@ func (p *Power) PopulateBatteries() {
     p.Batteries = []*Battery{}
     for _, pth := range devices {
         typ, _ := p.conn.Object(UPOWER_BUS, pth).GetProperty(
-            UPOWER_BUS + ".Type",
+            UPOWER_BUS + ".Device.Type",
         )
 
         if DeviceType(typ.Value().(uint32)) == DeviceTypeBattery {
@@ -158,13 +158,13 @@ func NewBattery(conn *dbus.Conn, devname string) *Battery {
     dev := conn.Object(UPOWER_BUS,
         dbus.ObjectPath(path.Join(UPOWER_PATH, "devices", devname)),
     )
-    id, _           := dev.GetProperty(UPOWER_BUS + ".NativePath")
-    state, _        := dev.GetProperty(UPOWER_BUS + ".State")
-    present, _      := dev.GetProperty(UPOWER_BUS + ".IsPresent")
-    percent, _      := dev.GetProperty(UPOWER_BUS + ".Percentage")
-    warning, _      := dev.GetProperty(UPOWER_BUS + ".WarningLevel")
-    timeempty, _    := dev.GetProperty(UPOWER_BUS + ".TimeToEmpty")
-    timefull, _     := dev.GetProperty(UPOWER_BUS + ".TimeToFull")
+    id, _           := dev.GetProperty(UPOWER_BUS + ".Device.NativePath")
+    state, _        := dev.GetProperty(UPOWER_BUS + ".Device.State")
+    present, _      := dev.GetProperty(UPOWER_BUS + ".Device.IsPresent")
+    percent, _      := dev.GetProperty(UPOWER_BUS + ".Device.Percentage")
+    warning, _      := dev.GetProperty(UPOWER_BUS + ".Device.WarningLevel")
+    timeempty, _    := dev.GetProperty(UPOWER_BUS + ".Device.TimeToEmpty")
+    timefull, _     := dev.GetProperty(UPOWER_BUS + ".Device.TimeToFull")
 
     b := Battery{
         ID:         id.Value().(string),
